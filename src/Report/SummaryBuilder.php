@@ -64,6 +64,7 @@ type SuiteSummary = shape(
 type TestSummary = shape(
   'assert count' => int,
   'success count' => int,
+  'test count' => int,
   'result' => TestResult,
   'skip event' => ?Skip,
   'fail event' => ?Failure,
@@ -240,7 +241,9 @@ class SummaryBuilder {
     return shape(
       'assert count' => 0,
       'success count' => 0,
-      'message' => '',
+      'test count' => 0,
+      'skip event' => null,
+      'fail event' => null,
       'result' => TestResult::Pass,
     );
   }
