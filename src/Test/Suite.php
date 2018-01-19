@@ -65,7 +65,7 @@ class Suite implements \HackPack\HackUnit\Contract\Test\Suite {
 
              $results = Vector {};
              foreach ($test['data provider']() await as $data) {
-               array_unshift($data, $assert);
+               array_unshift(&$data, $assert);
                $results->add($test['method']($instance, $data));
              }
              $results = await Asio\vw($results);

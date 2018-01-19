@@ -14,7 +14,7 @@ class Status {
 
   public function handleRunStart(): void {
     $out = [];
-    exec('hhvm --version', $out);
+    exec('hhvm --version', &$out);
     $hhvmVersion = $out[0];
     fwrite(
       $this->out,
