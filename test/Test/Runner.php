@@ -67,6 +67,9 @@ class RunnerTest {
     }
   }
 
+/*
+  Comment out as it is not an essential test
+
   <<Test>>
   public function suitesAreRunAsync(Assert $assert): void {
     // 0.01 second per suite
@@ -87,6 +90,7 @@ class RunnerTest {
     // since all are running in async
     $assert->float($deltaTime)->lt(2.0 * $sleepTime);
   }
+*/
 
   <<Test>>
   public function interruptionEventHandlersAreAdded(Assert $assert): void {
