@@ -25,7 +25,8 @@
   "minimum-stability": "dev",
   "require": {
     "hhvm": "^3.11",
-    "facebook/definition-finder": "^1.0"
+    "facebook/definition-finder": "^1.7",
+    "hhvm/hsl": "^1.2"
   },
   "autoload": {
     "psr-4": {

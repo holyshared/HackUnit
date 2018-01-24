@@ -4,6 +4,7 @@ namespace HackPack\HackUnit\Test;
 
 use Facebook\DefinitionFinder\FileParser;
 use Facebook\DefinitionFinder\ScannedBasicClass;
+use HH\Lib\{ C };
 use HackPack\HackUnit\Contract\Test\Parser;
 use HackPack\HackUnit\Contract\Test\Suite as SuiteInterface;
 use HackPack\HackUnit\Event\MalformedSuite;
@@ -66,7 +67,8 @@ final class SuiteBuilder {
   }
 
   private function markedAsSkipped(ScannedBasicClass $class): bool {
-    return $class->getAttributes()->containsKey('Skip');
+    $attributes = $class->getAttributes();
+    return C\contains_key($attributes, 'Skip');
   }
 
   private function buildInvoker(ReflectionMethod $method): InvokerWithParams {
