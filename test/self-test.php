@@ -13,7 +13,24 @@ use HackPack\HackUnit\Test\Runner;
 use HackPack\HackUnit\Test\SuiteBuilder;
 
 $root = dirname(__DIR__);
-require_once $root.'/vendor/autoload.php';
+
+$autoloaded = false;
+$autoloadFiles = [
+  $root.'/vendor/hh_autoload.php',
+  $root.'/vendor/autoload.php'
+];
+
+foreach ($autoloadFiles as $autoloadFile) {
+  if (file_exists($autoloadFile)) {
+    require_once $autoloadFile;
+    $autoloaded = true;
+    break;
+  }
+}
+
+if (!$autoloaded) {
+  echo sprintf("Autoload configuration file could not be loaded.\nPlease try composer update.");
+}
 
 $reportFormatters = Vector {new CliFormat(STDOUT)};
 
