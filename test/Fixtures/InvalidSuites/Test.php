@@ -7,9 +7,6 @@ use HackPack\HackUnit\Contract\Assert;
 class TestConstructDestruct {
   <<Test>>
   public function __construct(Assert $assert) {}
-
-  <<Test>>
-  public function __destruct() {}
 }
 
 class TestParams {

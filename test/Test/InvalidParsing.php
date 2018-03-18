@@ -51,8 +51,8 @@ class InvalidParsing extends ParserTest {
   public static function invalidUpDownSuites(): Traversable<ErrorSuite> {
     return [
       shape('errors' => 1, 'name' => 'TestUpParams'),
-      shape('errors' => 2, 'name' => 'TestUpConstructDestruct'),
-      shape('errors' => 2, 'name' => 'TestDownConstructDestruct'),
+      shape('errors' => 1, 'name' => 'TestUpConstructDestruct'),
+      shape('errors' => 1, 'name' => 'TestDownConstructDestruct'),
       shape('errors' => 1, 'name' => 'TestUpParams'),
       shape('errors' => 1, 'name' => 'TestDownParams'),
     ];
@@ -70,7 +70,7 @@ class InvalidParsing extends ParserTest {
   <<Test>>
   public function TestParseErrors(Assert $assert): void {
     $parser = $this->parserFromSuiteName('TestConstructDestruct');
-    $assert->int($parser->errors()->count())->eq(2);
+    $assert->int($parser->errors()->count())->eq(1);
     $assert->int($parser->tests()->count())->eq(0);
 
     $parser = $this->parserFromSuiteName('TestParams');
