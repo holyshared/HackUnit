@@ -10,9 +10,6 @@ class TestUpParams {
 class TestUpConstructDestruct {
   <<Setup>>
   public function __construct() {}
-
-  <<Setup>>
-  public function __destruct() {}
 }
 
 class TestDownParams {
@@ -23,7 +20,4 @@ class TestDownParams {
 class TestDownConstructDestruct {
   <<TearDown>>
   public function __construct() {}
-
-  <<TearDown>>
-  public function __destruct() {}
 }
