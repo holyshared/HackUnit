@@ -42,24 +42,24 @@ class StringAssertion
       : $this->fail(
         Vector {
           'Strings expected to be identical:',
-          'Context ('.strlen($this->context).'):',
-          substr($this->context, 0, 250),
+          'Context ('.\strlen($this->context).'):',
+          \substr($this->context, 0, 250),
           '',
-          'Expected ('.strlen($expected).')',
-          substr($expected, 0, 250),
+          'Expected ('.\strlen($expected).')',
+          \substr($expected, 0, 250),
         },
       );
     return $this;
   }
 
   public function hasLength(int $length): this {
-    if (strlen($this->context) === $length) {
+    if (\strlen($this->context) === $length) {
       $this->negate
         ? $this->fail(
           Vector {
             'Expected length: '.$length,
-            'Context ('.strlen($this->context).'):',
-            substr($this->context, 0, 250),
+            'Context ('.\strlen($this->context).'):',
+            \substr($this->context, 0, 250),
           },
         )
         : $this->emitSuccess();
@@ -74,7 +74,7 @@ class StringAssertion
   }
 
   public function matches(string $pattern): this {
-    $result = preg_match($pattern, $this->context);
+    $result = \preg_match($pattern, $this->context);
     /* HH_FIXME[4118] */
     if ($result === false) {
       $this->fail(
@@ -104,25 +104,25 @@ class StringAssertion
   }
 
   private function lastPregError(): string {
-    switch (preg_last_error()) {
-      case PREG_NO_ERROR:
+    switch (\preg_last_error()) {
+      case \PREG_NO_ERROR:
         return 'No error';
-      case PREG_INTERNAL_ERROR:
+      case \PREG_INTERNAL_ERROR:
         return 'Internal preg error';
-      case PREG_BACKTRACK_LIMIT_ERROR:
+      case \PREG_BACKTRACK_LIMIT_ERROR:
         return 'Backtrack limit';
-      case PREG_RECURSION_LIMIT_ERROR:
+      case \PREG_RECURSION_LIMIT_ERROR:
         return 'Recursion limit';
-      case PREG_BAD_UTF8_ERROR:
+      case \PREG_BAD_UTF8_ERROR:
         return 'Invalid UTF8';
-      case PREG_BAD_UTF8_OFFSET_ERROR:
+      case \PREG_BAD_UTF8_OFFSET_ERROR:
         return 'Matched to middle of UTF8 character.';
     }
     return 'Unknown error';
   }
 
   public function contains(string $needle): this {
-    if (strpos($this->context, $needle) === false) {
+    if (\strpos($this->context, $needle) === false) {
       $this->negate
         ? $this->emitSuccess()
         : $this->fail(
@@ -151,7 +151,7 @@ class StringAssertion
   }
 
   public function containedBy(string $haystack): this {
-    if (strpos($haystack, $this->context) === false) {
+    if (\strpos($haystack, $this->context) === false) {
       $this->negate
         ? $this->emitSuccess()
         : $this->fail(
@@ -178,6 +178,6 @@ class StringAssertion
   }
 
   private function fail(Vector<string> $lines): void {
-    $this->emitFailure(Failure::fromCallStack(implode(PHP_EOL, $lines)));
+    $this->emitFailure(Failure::fromCallStack(\implode(\PHP_EOL, $lines)));
   }
 }

@@ -13,7 +13,7 @@ class LoaderTest {
   private Loader $loader;
 
   public function __construct() {
-    $this->fileDir = dirname(__DIR__).'/Fixtures/LoadingFiles';
+    $this->fileDir = \dirname(__DIR__).'/Fixtures/LoadingFiles';
     $this->loader = new Loader(
       $filename ==> {
         $this->fileNames->add($filename);
@@ -111,10 +111,10 @@ class LoaderTest {
     // This actually hits the filesystem
     $this->loader->testSuites();
 
-    $missing = array_diff($expectedFiles, $this->fileNames);
-    $extra = array_diff($this->fileNames, $expectedFiles);
+    $missing = \array_diff($expectedFiles, $this->fileNames);
+    $extra = \array_diff($this->fileNames, $expectedFiles);
 
-    $assert->int(count($missing))->eq(0);
-    $assert->int(count($extra))->eq(0);
+    $assert->int(\count($missing))->eq(0);
+    $assert->int(\count($extra))->eq(0);
   }
 }

@@ -14,7 +14,7 @@ type ErrorSuite = shape(
 class InvalidParsing extends ParserTest {
 
   protected static function basePath(): string {
-    return dirname(__DIR__).'/Fixtures/InvalidSuites';
+    return \dirname(__DIR__).'/Fixtures/InvalidSuites';
   }
 
   protected static function fullName(string $name): string {
@@ -138,7 +138,7 @@ class InvalidParsing extends ParserTest {
   ): void {
     $parser = $this->parserFromSuiteName($suiteData['name']);
     if ($parser->errors()->count() !== $suiteData['errors']) {
-      var_dump($suiteData, $parser->errors());
+      \var_dump($suiteData, $parser->errors());
     }
     $assert->int($parser->errors()->count())->eq($suiteData['errors']);
     $assert->int($parser->tests()->count())->eq(0);

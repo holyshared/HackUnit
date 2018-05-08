@@ -139,7 +139,7 @@ class MixedAssertion
   }
 
   public function isTypeOf(string $className): void {
-    if (is_a($this->context, $className)) {
+    if (\is_a($this->context, $className)) {
       $this->negate
         ? $this->fail(
           'Expected context to not be an instance of '.$className.'.',

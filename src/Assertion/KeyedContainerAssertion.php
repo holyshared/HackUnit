@@ -41,7 +41,7 @@ class KeyedContainerAssertion<Tkey, Tval> implements IAssertion<Tkey, Tval> {
         $this->emitFailure(
           Failure::fromCallStack(
             'Expected Keyed Container to not have key '.
-            var_export($expected, true),
+            \var_export($expected, true),
           ),
         );
         return;
@@ -57,7 +57,7 @@ class KeyedContainerAssertion<Tkey, Tval> implements IAssertion<Tkey, Tval> {
 
     $this->emitFailure(
       Failure::fromCallStack(
-        'Expected Keyed Container to have key '.var_export($expected, true),
+        'Expected Keyed Container to have key '.\var_export($expected, true),
       ),
     );
     return;
@@ -79,7 +79,7 @@ class KeyedContainerAssertion<Tkey, Tval> implements IAssertion<Tkey, Tval> {
       }
       $this->emitFailure(
         Failure::fromCallStack(
-          'Expected Keyed Container to have key '.var_export($key, true),
+          'Expected Keyed Container to have key '.\var_export($key, true),
         ),
       );
       return;
@@ -90,7 +90,7 @@ class KeyedContainerAssertion<Tkey, Tval> implements IAssertion<Tkey, Tval> {
         $this->emitFailure(
           Failure::fromCallStack(
             'Expected Keyed Container to not contain a matching value at key '.
-            var_export($key, true),
+            \var_export($key, true),
           ),
         );
         return;
@@ -107,7 +107,7 @@ class KeyedContainerAssertion<Tkey, Tval> implements IAssertion<Tkey, Tval> {
     $this->emitFailure(
       Failure::fromCallStack(
         'Expected Keyed Container to contain a matching value at key '.
-        var_export($key, true),
+        \var_export($key, true),
       ),
     );
   }

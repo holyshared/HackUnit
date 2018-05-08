@@ -141,7 +141,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
       return;
     }
 
-    $attr = (new Set($attr))->map($v ==> strtolower($v));
+    $attr = (new Set($attr))->map($v ==> \strtolower($v));
 
     // Look for <<$type('suite')>>
     if ($attr->contains('suite')) {
@@ -218,7 +218,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
     'method' => string,
     'data type' => string,
   ) {
-    if (count($dataAttr) < 1) {
+    if (\count($dataAttr) < 1) {
       $this->errors
         ->add(
           new MalformedSuite(
@@ -268,12 +268,12 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
     );
 
     if ($invalidParams->count() > 0 || $params->isEmpty()) {
-      sprintf(
+      \sprintf(
         'Test method %s must accept exactly %d %s %s',
         $method->getName(),
         $expectedParams->count(),
         $expectedParams->count() === 1 ? 'type' : 'types',
-        implode(' and ', $expectedParams),
+        \implode(' and ', $expectedParams),
       )
         |> $this->errors->add(
           new MalformedSuite(Trace::fromReflectionMethod($method), $$),
@@ -375,7 +375,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
       if ($dataAttribute === null) {
         continue;
       }
-      if (count($dataAttribute) < 1) {
+      if (\count($dataAttribute) < 1) {
         $this->errors
           ->add(
             new MalformedSuite(
@@ -460,7 +460,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
     $typeString = (string) $return;
     $expectedStart =
       $method->isAsync() ? 'HH\AsyncIterator<' : 'HH\Traversable<';
-    if (substr($typeString, 0, strlen($expectedStart)) !== $expectedStart) {
+    if (\substr($typeString, 0, \strlen($expectedStart)) !== $expectedStart) {
       $message =
         $method->isAsync()
           ? 'Async data providers must return AsyncIterator<type>'
@@ -472,7 +472,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
     }
 
     // The rest of the return string is the type being passed to the test
-    return substr($typeString, strlen($expectedStart), -1);
+    return \substr($typeString, \strlen($expectedStart), -1);
   }
 
   private function checkConstructor(ReflectionMethod $method): void {
@@ -495,14 +495,14 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
     string $className,
     string $fileName,
   ): void {
-    if (!class_exists($className)) {
+    if (!\class_exists($className)) {
 
-      if (is_file($fileName)) {
+      if (\is_file($fileName)) {
         /* HH_FIXME[1002] */
         require_once ($fileName);
       }
 
-      if (!class_exists($className)) {
+      if (!\class_exists($className)) {
         throw new \RuntimeException('Unable to locate class '.$className);
       }
 

@@ -75,7 +75,7 @@ class NumericAssertion<Tcontext>
     if (is_int($this->context)) {
       $this->emitFailure(
         Failure::fromCallStack(
-          sprintf(
+          \sprintf(
             'Integer assertion failed.  Expected %d %s %d',
             $this->context,
             $comparison,
@@ -87,7 +87,7 @@ class NumericAssertion<Tcontext>
     }
     $this->emitFailure(
       Failure::fromCallStack(
-        sprintf(
+        \sprintf(
           'Float assertion failed. Expected %f %s %f',
           $this->context,
           $comparison,

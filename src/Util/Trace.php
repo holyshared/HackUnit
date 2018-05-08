@@ -55,7 +55,7 @@ class Trace {
 
   public static function generate(): Vector<TraceItem> {
     return
-      self::convert((new Vector(debug_backtrace()))->removeKey(0)->toArray());
+      self::convert((new Vector(\debug_backtrace()))->removeKey(0)->toArray());
   }
 
   public static function convert(
@@ -67,19 +67,19 @@ class Trace {
   public static function buildItem(array<string, mixed> $item): TraceItem {
     return shape(
       'line' =>
-        array_key_exists('line', $item) && is_int($item['line'])
+        \array_key_exists('line', $item) && is_int($item['line'])
           ? (int) $item['line']
           : null,
       'function' =>
-        array_key_exists('function', $item) && is_string($item['function'])
+        \array_key_exists('function', $item) && is_string($item['function'])
           ? (string) $item['function']
           : null,
       'class' =>
-        array_key_exists('class', $item) && is_string($item['class'])
+        \array_key_exists('class', $item) && is_string($item['class'])
           ? (string) $item['class']
           : null,
       'file' =>
-        array_key_exists('file', $item) && is_string($item['file'])
+        \array_key_exists('file', $item) && is_string($item['file'])
           ? (string) $item['file']
           : null,
     );
@@ -97,9 +97,10 @@ class Trace {
       }
 
       // See if current item implements the assertion interface
-      $implements = class_implements($item['class']);
+      $implements = \class_implements($item['class']);
+
       if (is_array($implements) &&
-          array_key_exists(Assertion::class, $implements)) {
+          \array_key_exists(Assertion::class, $implements)) {
         // Next item in the stack was the actual caller
         if ($trace->containsKey($idx + 1)) {
           return shape(

@@ -39,11 +39,11 @@ class CallableAssertion
       $c = $this->context;
       $c();
     } catch (\Exception $e) {
-      if (is_a($e, $className)) {
+      if (\is_a($e, $className)) {
         $this->emitSuccess();
         return;
       }
-      $this->wrongClass($className, get_class($e));
+      $this->wrongClass($className, \get_class($e));
       return;
     }
     $this->missingException();
@@ -69,7 +69,7 @@ class CallableAssertion
       $c = $this->context;
       $c();
     } catch (\Exception $e) {
-      if (strpos($e->getMessage(), $needle) !== false) {
+      if (\strpos($e->getMessage(), $needle) !== false) {
         $this->emitSuccess();
         return;
       }
@@ -91,8 +91,8 @@ class CallableAssertion
         $this->wrongMessage($message, $e->getMessage());
         return;
       }
-      if (!is_a($e, $className)) {
-        $this->wrongClass($className, get_class($e));
+      if (!\is_a($e, $className)) {
+        $this->wrongClass($className, \get_class($e));
         return;
       }
       $this->emitSuccess();
@@ -109,12 +109,12 @@ class CallableAssertion
       $c = $this->context;
       $c();
     } catch (\Exception $e) {
-      if (strpos($e->getMessage(), $needle) === false) {
+      if (\strpos($e->getMessage(), $needle) === false) {
         $this->messageDoesNotContain($needle, $e->getMessage());
         return;
       }
-      if (!is_a($e, $className)) {
-        $this->wrongClass($className, get_class($e));
+      if (!\is_a($e, $className)) {
+        $this->wrongClass($className, \get_class($e));
         return;
       }
       $this->emitSuccess();
@@ -130,11 +130,11 @@ class CallableAssertion
     } catch (\Exception $e) {
       $this->emitFailure(
         Failure::fromCallStack(
-          implode(
-            PHP_EOL,
+          \implode(
+            \PHP_EOL,
             [
               'Unexpected exception thrown.',
-              get_class($e),
+              \get_class($e),
               $e->getMessage(),
             ],
           ),
@@ -166,8 +166,8 @@ class CallableAssertion
   private function wrongMessage(string $expected, string $actual): void {
     $this->emitFailure(
       Failure::fromCallStack(
-        implode(
-          PHP_EOL,
+        \implode(
+          \PHP_EOL,
           [
             'Expected exception message:',
             $expected,
@@ -185,8 +185,8 @@ class CallableAssertion
   ): void {
     $this->emitFailure(
       Failure::fromCallStack(
-        implode(
-          PHP_EOL,
+        \implode(
+          \PHP_EOL,
           [
             'Expected exception message to contain:',
             $expected,

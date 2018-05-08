@@ -9,7 +9,7 @@ use Facebook\DefinitionFinder\TreeParser;
 class ValidParsing extends ParserTest {
 
   protected static function basePath(): string {
-    return dirname(__DIR__).'/Fixtures/ValidSuites';
+    return \dirname(__DIR__).'/Fixtures/ValidSuites';
   }
 
   protected static function fullName(string $name): string {

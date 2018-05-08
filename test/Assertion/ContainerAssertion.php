@@ -372,7 +372,7 @@ class ContainerAssertionTest {
     $assert->int($this->successCount)->eq(0);
     $assert->int($this->failEvents->count())->eq(1);
     $assert->string($this->failEvents->at(0)->getMessage())
-      ->is('Container expected to contain '.var_export('c', true));
+      ->is('Container expected to contain '.\var_export('c', true));
   }
 
   <<Test>>

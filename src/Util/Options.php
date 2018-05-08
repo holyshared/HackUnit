@@ -21,7 +21,7 @@ final class Options {
     $arglist->pop();
 
     $addPathToArray = ($path, $array) ==> {
-      $realpath = realpath($path);
+      $realpath = \realpath($path);
       if (is_string($realpath)) {
         $array[] = $realpath;
       }
@@ -30,15 +30,15 @@ final class Options {
 
     while ($arglist) {
       $arg = $arglist->pop();
-      if (substr($arg, 0, 2) === '--') {
-        $path = self::handleLongOption(substr($arg, 2), $arglist);
+      if (\substr($arg, 0, 2) === '--') {
+        $path = self::handleLongOption(\substr($arg, 2), $arglist);
         if ($path !== '') {
           $excludes = $addPathToArray($path, $excludes);
         }
         continue;
       }
-      if (substr($arg, 0, 1) === '-') {
-        $path = self::handleShortOption(substr($arg, 1), $arglist);
+      if (\substr($arg, 0, 1) === '-') {
+        $path = self::handleShortOption(\substr($arg, 1), $arglist);
         if ($path !== '') {
           $excludes = $addPathToArray($path, $excludes);
         }
@@ -54,7 +54,7 @@ final class Options {
     string $arg,
     Vector<string> $args,
   ): string {
-    $parts = new Vector(explode('=', $arg, 2));
+    $parts = new Vector(\explode('=', $arg, 2));
     if ($parts->at(0) !== 'exclude') {
       return '';
     }
@@ -69,17 +69,17 @@ final class Options {
     string $arg,
     Vector<string> $args,
   ): string {
-    if (substr($arg, 0, 1) !== 'e') {
+    if (\substr($arg, 0, 1) !== 'e') {
       return '';
     }
-    $value = substr($arg, 1);
+    $value = \substr($arg, 1);
     if ($value === false) {
       $value = self::tryNext($args);
     }
     return $value;
   }
   private static function tryNext(Vector<string> $args): string {
-    if ($args->isEmpty() || substr($args->at(0), 0, 1) === '-') {
+    if ($args->isEmpty() || \substr($args->at(0), 0, 1) === '-') {
       return '';
     }
     return $args->pop();

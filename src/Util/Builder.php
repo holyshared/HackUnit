@@ -42,10 +42,10 @@ final class Builder {
   }
 
   private function buildReportFormatters(): Vector<Format> {
-    return Vector {new Cli(STDOUT)};
+    return Vector {new Cli(\STDOUT)};
   }
 
   private function buildStatus(): Status {
-    return new Status(STDOUT);
+    return new Status(\STDOUT);
   }
 }

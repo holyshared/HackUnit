@@ -58,7 +58,7 @@ class ContainerAssertion<Tval>
           $this->emitFailure(
             Failure::fromCallStack(
               'Expected Container to not contain '.
-              var_export($expected, true),
+              \var_export($expected, true),
             ),
           );
           return;
@@ -76,7 +76,7 @@ class ContainerAssertion<Tval>
 
     $this->emitFailure(
       Failure::fromCallStack(
-        'Expected Container to contain '.var_export($expected, true),
+        'Expected Container to contain '.\var_export($expected, true),
       ),
     );
   }
@@ -100,7 +100,7 @@ class ContainerAssertion<Tval>
 
     foreach ($expected as $other) {
 
-      $otherIsContained = array_reduce(
+      $otherIsContained = \array_reduce(
         $this->context->toArray(),
         ($result, $contextVal) ==> $result ||
         $comparitor($contextVal, $other),
@@ -117,7 +117,7 @@ class ContainerAssertion<Tval>
       }
       $this->emitFailure(
         Failure::fromCallStack(
-          'Container expected to contain '.var_export($other, true),
+          'Container expected to contain '.\var_export($other, true),
         ),
       );
       return;
@@ -154,7 +154,7 @@ class ContainerAssertion<Tval>
 
     foreach ($expected as $otherValue) {
 
-      $otherIsContained = array_reduce(
+      $otherIsContained = \array_reduce(
         $this->context->toArray(),
         ($result, $contextVal) ==> $result ||
         $comparitor($contextVal, $otherValue),
@@ -166,7 +166,7 @@ class ContainerAssertion<Tval>
           $this->emitFailure(
             Failure::fromCallStack(
               'Container expected to not contain '.
-              var_export($otherValue, true),
+              \var_export($otherValue, true),
             ),
           );
           return;
