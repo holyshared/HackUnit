@@ -241,7 +241,7 @@ final class SuiteBuilder {
   private function reflectClass(
     ScannedBasicClass $scannedClass,
   ): ?ReflectionClass {
-    if (!class_exists($scannedClass->getName())) {
+    if (!\class_exists($scannedClass->getName())) {
       $this->load($scannedClass->getFileName());
     }
 

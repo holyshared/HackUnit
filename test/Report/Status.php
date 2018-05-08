@@ -35,7 +35,7 @@ final class StatusTest {
 
   <<__ReturnDisposable>>
   private function createContext(): ReportStatusContext {
-    $out = fopen('php://memory', 'w+');
+    $out = \fopen('php://memory', 'w+');
     return new ReportStatusContext($out, new Status($out));
   }
 }
@@ -50,12 +50,12 @@ final class ReportStatusContext implements \IDisposable {
   }
 
   public function assertOutput(Assert $assert, string $expected): void {
-    rewind($this->out);
-    $actual = stream_get_contents($this->out);
+    \rewind($this->out);
+    $actual = \stream_get_contents($this->out);
     $assert->string($actual)->is($expected);
   }
 
   public function __dispose(): void {
-    fclose($this->out);
+    \fclose($this->out);
   }
 }

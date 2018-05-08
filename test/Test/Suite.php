@@ -25,14 +25,9 @@ class SuiteTest {
   private Vector<Skip> $skipEvents = Vector {};
   private Vector<TestStart> $testStartEvents = Vector {};
 
-  private (function(): Awaitable<mixed>) $factory;
   private TraceItem $traceItem;
 
   public function __construct() {
-    $this->factory = async () ==> {
-      $this->factoryRuns++;
-      return $this;
-    };
     $this->traceItem = Trace::buildItem([]);
   }
 
@@ -41,14 +36,14 @@ class SuiteTest {
     $testMethod = async ($instance, $args) ==> {
       $this->testRuns++;
       $assert->mixed($instance)->identicalTo($this);
-      $assert->int(count($args))->eq(2);
+      $assert->int(\count($args))->eq(2);
       $assert->mixed($args[0])->isTypeOf(Assert::class);
       $assert->mixed($args[1])->identicalTo($this->testRuns);
     };
     $test = shape(
       'name' => '',
       'suite name' => '',
-      'factory' => $this->factory,
+      'factory' => $this->asyncFactory(),
       'method' => $testMethod,
       'trace item' => $this->traceItem,
       'skip' => false,
@@ -96,7 +91,7 @@ class SuiteTest {
 
   <<Test>>
   public function suiteTests(Assert $assert): void {
-    foreach (range(0, 3) as $thirdTestCount) {
+    foreach (\range(0, 3) as $thirdTestCount) {
 
       $tests = Vector {};
       for ($i = 0; $i < $thirdTestCount; $i++) {
@@ -109,9 +104,9 @@ class SuiteTest {
   }
 
   private function runTests(Assert $assert, Vector<TestShape> $tests): void {
-    $thirdTestCount = (int) floor($tests->count() / 3);
+    $thirdTestCount = (int) \floor($tests->count() / 3);
 
-    foreach (range(0, 2) as $upDownCount) {
+    foreach (\range(0, 2) as $upDownCount) {
       $suite = new Suite(
         '',
         $tests,
@@ -188,7 +183,7 @@ class SuiteTest {
   private function makeTestMethod(Assert $assert): InvokerWithParams {
     return async ($instance, $args) ==> {
       $assert->mixed($instance)->identicalTo($this);
-      $assert->int(count($args))->eq(1);
+      $assert->int(\count($args))->eq(1);
       $assert->mixed($args[0])->isTypeOf(Assert::class);
       $this->testRuns++;
     };
@@ -198,7 +193,7 @@ class SuiteTest {
     return shape(
       'name' => 'passing',
       'suite name' => '',
-      'factory' => $this->factory,
+      'factory' => $this->asyncFactory(),
       'method' => $this->makeTestMethod($assert),
       'trace item' => $this->traceItem,
       'skip' => false,
@@ -212,7 +207,7 @@ class SuiteTest {
     return shape(
       'name' => 'skipped',
       'suite name' => '',
-      'factory' => $this->factory,
+      'factory' => $this->asyncFactory(),
       'method' => $this->makeTestMethod($assert),
       'trace item' => $this->traceItem,
       'skip' => true,
@@ -226,7 +221,7 @@ class SuiteTest {
     return shape(
       'name' => 'unexpected exception',
       'suite name' => '',
-      'factory' => $this->factory,
+      'factory' => $this->asyncFactory(),
       'method' => async ($instance, $args) ==> {
         $this->testRuns++;
         throw new \Exception('This is the message');
@@ -243,7 +238,7 @@ class SuiteTest {
     return shape(
       'name' => 'interrupted',
       'suite name' => '',
-      'factory' => $this->factory,
+      'factory' => $this->asyncFactory(),
       'method' => async ($instance, $args) ==> {
         $this->testRuns++;
         throw new Interruption();
@@ -316,5 +311,12 @@ class SuiteTest {
       Vector {$skipListener},
       Vector {},
     );
+  }
+
+  private function asyncFactory(): (function(): Awaitable<mixed>) {
+    return async () ==> {
+      $this->factoryRuns++;
+      return $this;
+    };
   }
 }

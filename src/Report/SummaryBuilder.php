@@ -91,11 +91,11 @@ class SummaryBuilder {
   }
 
   public function startTiming(): void {
-    $this->summary['start time'] = microtime(true);
+    $this->summary['start time'] = \microtime(true);
   }
 
   public function stopTiming(): void {
-    $this->summary['end time'] = microtime(true);
+    $this->summary['end time'] = \microtime(true);
   }
 
   public function handleFailure(Failure $event): void {

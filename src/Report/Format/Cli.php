@@ -11,7 +11,7 @@ class Cli implements Format {
 
   public function writeReport(Summary $status): void {
 
-    $this->line(PHP_EOL);
+    $this->line(\PHP_EOL);
     $this->line($this->timeReport($status));
     $this->line($this->testSummary($status));
     $this->show($this->malformedReport($status));
@@ -31,8 +31,8 @@ class Cli implements Format {
         '.';
 
       $entries->add(
-        implode(
-          PHP_EOL,
+        \implode(
+          \PHP_EOL,
           [
             $message,
             'Exception message:',
@@ -44,11 +44,11 @@ class Cli implements Format {
       );
     }
 
-    return PHP_EOL.implode(PHP_EOL, $entries).PHP_EOL;
+    return \PHP_EOL.\implode(\PHP_EOL, $entries).\PHP_EOL;
   }
 
   public function testSummary(Summary $summary): string {
-    return sprintf(
+    return \sprintf(
       'Assertions: %s/%d Tests: %s/%d Failed: %s Skipped %s',
       $summary['success count'],
       $summary['assert count'],
@@ -64,15 +64,15 @@ class Cli implements Format {
       return '';
     }
     return
-      PHP_EOL.
+      \PHP_EOL.
       'Skipped tests:'.
-      PHP_EOL.
-      implode(
-        PHP_EOL.PHP_EOL,
+      \PHP_EOL.
+      \implode(
+        \PHP_EOL.\PHP_EOL,
         $summary['skip events']->mapWithKey(
           ($idx, $e) ==> {
-            return implode(
-              PHP_EOL,
+            return \implode(
+              \PHP_EOL,
               [
                 '-*-*-*- Test Skip '.($idx + 1).' -*-*-*-',
                 $this->buildMethodCall($e->testMethodTraceItem()),
@@ -83,7 +83,7 @@ class Cli implements Format {
           },
         ),
       ).
-      PHP_EOL;
+      \PHP_EOL;
 
   }
 
@@ -98,8 +98,8 @@ class Cli implements Format {
       $assertionCall = $this->buildMethodCall($assertionTraceItem);
       $testMethod = $this->buildMethodCall($testTraceItem);
       $report .=
-        implode(
-          PHP_EOL,
+        \implode(
+          \PHP_EOL,
           [
             '',
             '-*-*-*- Test Failure '.($idx + 1).' -*-*-*-',
@@ -112,9 +112,9 @@ class Cli implements Format {
             $e->getMessage(),
           ],
         ).
-        PHP_EOL;
+        \PHP_EOL;
     }
-    return $report.PHP_EOL;
+    return $report.\PHP_EOL;
   }
 
   private function timeReport(Summary $summary): string {
@@ -122,7 +122,7 @@ class Cli implements Format {
     if ($elapsedTime < 0.000000001) {
       return 'Finished testing.';
     }
-    return sprintf('Finished testing in %.2f seconds.', $elapsedTime);
+    return \sprintf('Finished testing in %.2f seconds.', $elapsedTime);
   }
 
   private function malformedReport(Summary $summary): string {
@@ -133,10 +133,10 @@ class Cli implements Format {
     $report = 'Some test suites were malformed:';
 
     foreach ($summary['malformed events'] as $idx => $event) {
-      $report .= implode(
-        PHP_EOL,
+      $report .= \implode(
+        \PHP_EOL,
         [
-          PHP_EOL,
+          \PHP_EOL,
           '-*-*-*- Malformed Error '.($idx + 1).' -*-*-*-',
           $this->buildMethodCall($event->traceItem()),
           $this->buildLineReference($event->traceItem()),
@@ -145,7 +145,7 @@ class Cli implements Format {
       );
     }
 
-    return $report.PHP_EOL;
+    return $report.\PHP_EOL;
   }
 
   private function buildLineReference(TraceItem $item): string {
@@ -170,10 +170,10 @@ class Cli implements Format {
   }
 
   private function line(string $message): void {
-    fwrite($this->out, $message.PHP_EOL);
+    \fwrite($this->out, $message.\PHP_EOL);
   }
 
   private function show(string $message): void {
-    fwrite($this->out, $message);
+    \fwrite($this->out, $message);
   }
 }
