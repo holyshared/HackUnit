@@ -1,0 +1,28 @@
+version: 2
+
+defaults: &defaults
+  working_directory: ~/platform
+
+jobs:
+  test:
+    parallelism: 1
+    <<: *defaults
+    docker:
+      - image: holyshared/typesafety:latest
+    steps:
+      - checkout
+      - run:
+          name: Install dependent packages
+          command: composer install
+      - run:
+          name: Perform type check
+          command: typesafety
+      - run:
+          name: Run the test
+          command: hhvm -c test/self-test.ini test/self-test.php
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - test
