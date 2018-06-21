@@ -9,7 +9,7 @@ use HackPack\HackUnit\Event\SuccessEmitter;
 use HackPack\HackUnit\Event\SuccessListener;
 use HackPack\HackUnit\Util\Trace;
 
-class NumericAssertion<Tcontext>
+class NumericAssertion<Tcontext as num>
   implements
     \HackPack\HackUnit\Contract\Assertion\NumericAssertion<Tcontext> {
   use FailureEmitter;

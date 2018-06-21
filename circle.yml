@@ -5,9 +5,9 @@ machine:
 dependencies:
   override:
     - docker info
-    - docker pull typesafety/typesafety:latest
-    - docker run --rm -v "$(pwd)":"$(pwd)" --workdir="$(pwd)" typesafety/typesafety:latest composer install
+    - docker pull holyshared/typesafety:latest
+    - docker run --rm -v "$(pwd)":"$(pwd)" --workdir="$(pwd)" holyshared/typesafety:latest composer install
 
 test:
   override:
-    - docker run -v "$(pwd)":"$(pwd)" --workdir="$(pwd)" -e "CIRCLE_TEST_REPORTS=$CIRCLE_TEST_REPORTS" typesafety/typesafety:latest hhvm -c test/self-test.ini test/self-test.php
+    - docker run -v "$(pwd)":"$(pwd)" --workdir="$(pwd)" -e "CIRCLE_TEST_REPORTS=$CIRCLE_TEST_REPORTS" holyshared/typesafety:latest hhvm -c test/self-test.ini test/self-test.php

@@ -22,11 +22,11 @@
       "role": "Developer"
     }
   ],
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "hhvm": "^3.11",
     "facebook/definition-finder": "^1.7",
-    "hhvm/hsl": "^1.2"
+    "hhvm/hsl": "^3.2"
   },
   "autoload": {
     "psr-4": {
