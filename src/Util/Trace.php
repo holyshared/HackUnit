@@ -2,9 +2,10 @@
 
 namespace HackPack\HackUnit\Util;
 
-use Facebook\DefinitionFinder\ScannedBasicClass;
+use Facebook\DefinitionFinder\ScannedClass;
 use Facebook\DefinitionFinder\ScannedMethod;
 use HackPack\HackUnit\Contract\Assertion\Assertion;
+use \RuntimeException;
 
 type TraceItem = shape(
   'file' => ?string,
@@ -15,12 +16,19 @@ type TraceItem = shape(
 
 class Trace {
   public static function fromScannedMethod(
-    ScannedBasicClass $class,
+    ScannedClass $class,
     ScannedMethod $method,
   ): TraceItem {
+    $pos = $method->getPosition();
+
+    if ($pos === null) {
+      $signature = $class->getName() . '->' . $method->getName();
+      throw new RuntimeException("The definition location of method $signature is unknown.");
+    }
+
     return self::buildItem(
       [
-        'line' => Shapes::idx($method->getPosition(), 'line'),
+        'line' => Shapes::idx($pos, 'line'),
         'class' => $class->getName(),
         'file' => $method->getFileName(),
         'function' => $method->getName(),

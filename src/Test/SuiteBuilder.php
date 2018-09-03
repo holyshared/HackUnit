@@ -3,7 +3,7 @@
 namespace HackPack\HackUnit\Test;
 
 use Facebook\DefinitionFinder\FileParser;
-use Facebook\DefinitionFinder\ScannedBasicClass;
+use Facebook\DefinitionFinder\ScannedClass;
 use HH\Lib\{ C };
 use HackPack\HackUnit\Contract\Test\Parser;
 use HackPack\HackUnit\Contract\Test\Suite as SuiteInterface;
@@ -12,6 +12,7 @@ use HackPack\HackUnit\Event\MalformedSuiteListener;
 use HackPack\HackUnit\Util\Trace;
 use ReflectionMethod;
 use ReflectionClass;
+use RuntimeException;
 
 type InvokerWithParams = (function(mixed, array<mixed>): Awaitable<void>);
 
@@ -30,14 +31,20 @@ final class SuiteBuilder {
     $suites = Vector {};
     $parserBuilder = $this->parserBuilder;
 
-    foreach (FileParser::FromFile($filename)->getClasses() as $scannedClass) {
+    foreach (FileParser::fromFile($filename)->getClasses() as $scannedClass) {
 
       if ($this->markedAsSkipped($scannedClass)) {
         $pos = $scannedClass->getPosition();
+
+        if ($pos === null) {
+          $name = $scannedClass->getName();
+          throw new RuntimeException("The definition location of class $name is unknown.");
+        }
+
         [
           'line' => $pos['line'],
           'class' => $scannedClass->getName(),
-          'file' => $pos['filename'],
+          'file' => $scannedClass->getFileName()
         ] |> Trace::buildItem($$)
           |> new SkippedSuite($scannedClass->getName(), $$)
           |> $suites->add($$);
@@ -66,7 +73,7 @@ final class SuiteBuilder {
     return $suites;
   }
 
-  private function markedAsSkipped(ScannedBasicClass $class): bool {
+  private function markedAsSkipped(ScannedClass $class): bool {
     $attributes = $class->getAttributes();
     return C\contains_key($attributes, 'Skip');
   }
@@ -239,7 +246,7 @@ final class SuiteBuilder {
   }
 
   private function reflectClass(
-    ScannedBasicClass $scannedClass,
+    ScannedClass $scannedClass,
   ): ?ReflectionClass {
     if (!\class_exists($scannedClass->getName())) {
       $this->load($scannedClass->getFileName());

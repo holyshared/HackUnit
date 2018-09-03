@@ -15,8 +15,9 @@ abstract class ParserTest {
   protected static Map<string, Parser> $parsersBySuiteName = Map {};
 
   <<Setup('suite')>>
-  public static function buildParsers(): void {
-    $parsers = TreeParser::FromPath(static::basePath())->getClasses()
+  public static async function buildParsers(): Awaitable<void> {
+    $parser = await TreeParser::fromPathAsync(static::basePath());
+    $parsers = $parser->getClasses()
       |> Vec\map($$, $class ==> {
         return Pair {
           $class->getName(),
