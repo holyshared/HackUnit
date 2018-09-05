@@ -75,19 +75,19 @@ class Trace {
   public static function buildItem(array<string, mixed> $item): TraceItem {
     return shape(
       'line' =>
-        \array_key_exists('line', $item) && is_int($item['line'])
+        \array_key_exists('line', $item) && ($item['line'] is int)
           ? (int) $item['line']
           : null,
       'function' =>
-        \array_key_exists('function', $item) && is_string($item['function'])
+        \array_key_exists('function', $item) && ($item['function'] is string)
           ? (string) $item['function']
           : null,
       'class' =>
-        \array_key_exists('class', $item) && is_string($item['class'])
+        \array_key_exists('class', $item) && ($item['class'] is string)
           ? (string) $item['class']
           : null,
       'file' =>
-        \array_key_exists('file', $item) && is_string($item['file'])
+        \array_key_exists('file', $item) && ($item['file'] is string)
           ? (string) $item['file']
           : null,
     );

@@ -22,7 +22,7 @@ final class Options {
 
     $addPathToArray = ($path, $array) ==> {
       $realpath = \realpath($path);
-      if (is_string($realpath)) {
+      if ($realpath is string) {
         $array[] = $realpath;
       }
       return $array;

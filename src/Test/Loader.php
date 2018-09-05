@@ -30,7 +30,7 @@ final class Loader implements \HackPack\HackUnit\Contract\Test\Loader {
 
   public function excluding(string $path): this {
     $fullPath = \realpath($path);
-    if (is_string($fullPath)) {
+    if ($fullPath is string) {
       $this->excludes->add($fullPath);
     }
     return $this;
@@ -60,7 +60,7 @@ final class Loader implements \HackPack\HackUnit\Contract\Test\Loader {
     foreach ($this->includes as $includeBase) {
       $info = new SplFileInfo($includeBase);
       $rp = $info->getRealPath();
-      if (!is_string($rp) || !$info->isReadable()) {
+      if (!($rp is string) || !$info->isReadable()) {
         echo 'skipping '.$rp.\PHP_EOL;
         continue;
       }
@@ -83,14 +83,14 @@ final class Loader implements \HackPack\HackUnit\Contract\Test\Loader {
             $realPath = $pathInfo->getRealPath();
             return
               $pathInfo->isReadable() &&
-              is_string($realPath) &&
+              ($realPath is string) &&
               $this->isPathIncluded($realPath);
           },
         );
         $rii = new \RecursiveIteratorIterator($rfi);
         foreach ($rii as $fileInfo) {
           $realPath = $fileInfo->getRealPath();
-          if (is_string($realPath)) {
+          if ($realPath is string) {
             yield $realPath;
           }
         }

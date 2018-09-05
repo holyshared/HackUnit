@@ -43,7 +43,7 @@ class MixedAssertion
   }
 
   public function isBool(): void {
-    if (is_bool($this->context)) {
+    if ($this->context is bool) {
       $this->negate
         ? $this->fail('Expected context to not be a bool.')
         : $this->emitSuccess();
@@ -55,7 +55,7 @@ class MixedAssertion
   }
 
   public function isInt(): void {
-    if (is_int($this->context)) {
+    if ($this->context is int) {
       $this->negate
         ? $this->fail('Expected context to not be an integer.')
         : $this->emitSuccess();
@@ -67,7 +67,7 @@ class MixedAssertion
   }
 
   public function isFloat(): void {
-    if (is_float($this->context)) {
+    if ($this->context is float) {
       $this->negate
         ? $this->fail('Expected context to not be an float.')
         : $this->emitSuccess();
@@ -79,7 +79,7 @@ class MixedAssertion
   }
 
   public function isString(): void {
-    if (is_string($this->context)) {
+    if ($this->context is string) {
       $this->negate
         ? $this->fail('Expected context to not be an string.')
         : $this->emitSuccess();

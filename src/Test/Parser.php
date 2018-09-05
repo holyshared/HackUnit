@@ -292,7 +292,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
     $attr = new Vector($attr);
 
     $alias = $attr->count() > 0 ? $attr->at(0) : '';
-    if (!is_string($alias)) {
+    if (!($alias is string)) {
       $this->errors
         ->add(
           new MalformedSuite(
@@ -387,7 +387,7 @@ class Parser implements \HackPack\HackUnit\Contract\Test\Parser {
       }
 
       $providerName = $dataAttribute[0];
-      if (!is_string($providerName)) {
+      if (!($providerName is string)) {
         $this->errors->add(
           new MalformedSuite(
             Trace::fromReflectionMethod($method),

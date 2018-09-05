@@ -72,7 +72,7 @@ class NumericAssertion<Tcontext as num>
   }
 
   private function fail(string $comparison, Tcontext $expected): void {
-    if (is_int($this->context)) {
+    if ($this->context is int) {
       $this->emitFailure(
         Failure::fromCallStack(
           \sprintf(
