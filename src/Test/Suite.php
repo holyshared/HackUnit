@@ -76,7 +76,7 @@ class Suite implements \HackPack\HackUnit\Contract\Test\Suite {
 
                if ($result->isFailed()) {
                  $exception = $result->getException();
-                 if (!($exception instanceof Interruption)) {
+                 if (!($exception is Interruption)) {
                    throw $exception;
                  }
                }
